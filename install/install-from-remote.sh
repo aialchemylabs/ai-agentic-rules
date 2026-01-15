@@ -66,7 +66,7 @@ echo -e "\n${GREEN}Installation complete!${NC}"
 echo -e "Packs installed to: ${GREEN}$TARGET_DIR/packs${NC}"
 
 echo -e "\n${GREEN}Next steps:${NC}"
-echo "1. Run \`npx ai-coding-rules init\` in your repo to set up AGENTS.md and configure your IDE"
+echo "1. Run \`npx @aialchemy/ai-coding-rules init\` in your repo to set up AGENTS.md and configure your IDE"
 echo "2. Or manually create AGENTS.md in your repo root (see examples/sample-repo/AGENTS.md)"
 
 echo -e "\n${YELLOW}💡 Buy us a coffee:${NC}"

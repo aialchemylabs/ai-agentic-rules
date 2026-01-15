@@ -1,5 +1,5 @@
 {
-  "name": "ai-coding-rules",
+  "name": "@aialchemy/ai-coding-rules",
   "version": "1.0.0",
   "description": "Universal, tool-agnostic instruction packs for AI coding agents",
   "type": "module",

@@ -2,6 +2,8 @@
 
 Universal, tool-agnostic instruction packs for AI coding agents, plus tool-specific adapters.
 
+**CLI package**: `@aialchemy/ai-coding-rules` (bin: `ai-coding-rules`)
+
 ## What is this?
 
 A modular system for defining how AI coding agents (and humans) should work in your codebase. Rules are organized into **packs** that can be combined via **profiles**, with explicit conflict resolution.
@@ -21,8 +23,10 @@ A modular system for defining how AI coding agents (and humans) should work in y
 The easiest way to get started is using the interactive CLI:
 
 ```bash
-npx ai-coding-rules init
+npx @aialchemy/ai-coding-rules init
 ```
+
+If you install the CLI globally, you can run `ai-coding-rules init` directly.
 
 This will:
 1. Download the latest rules and adapters from GitHub (no bundled files)
@@ -40,7 +44,7 @@ Install directly from GitHub without cloning:
 curl -fsSL https://raw.githubusercontent.com/aialchemylabs/ai-agentic-rules/main/install/install-from-remote.sh | bash
 ```
 
-Then run `npx ai-coding-rules init` in your repo to configure it.
+Then run `npx @aialchemy/ai-coding-rules init` in your repo to configure it.
 
 ### Option 3: Manual installation
 
@@ -219,7 +223,7 @@ test -x install/update.sh && echo "✓ update script is executable"
 
 ```bash
 # In your repo root
-npx ai-coding-rules init
+npx @aialchemy/ai-coding-rules init
 ```
 
 This automatically:
