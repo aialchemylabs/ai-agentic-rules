@@ -1,0 +1,84 @@
+---
+alwaysApply: true
+---
+# Mission
+You are implementing a new public GitHub repository named `ai-agentic-rules`. The repository provides universal, tool-agnostic instruction packs for AI coding agents, plus tool-specific adapters (Cursor, VS Code Copilot, Kiro, Gemini/Antigravity-style rules). Optimize for clarity, composability, and minimal drift.
+
+# Non-negotiables
+- Everything must be public-safe: no secrets, no internal URLs, no client names unless already public.
+- Write instructions that are explicit, testable, and short. Prefer checklists and concrete commands.
+- Avoid tool lock-in: canonical rules live in one place; adapters are thin pointers.
+- Add a clear conflict-resolution policy between rule packs (e.g., Bun-first vs pnpm/Express/Jest references).
+
+# Source material to incorporate (convert into modular packs)
+1) Bun-first agent rules (commands, APIs, frontend bundling, testing) — treat as a dedicated pack.
+2) AI Alchemy coding standards (TS strictness, naming, repo structure, stack conventions, testing, security, CI gates) — treat as a dedicated pack.
+
+# Deliverables (must create all)
+## Repo structure
+Create:
+- README.md (what, why, philosophy, how to use, quickstart)
+- LICENSE (MIT)
+- packs/
+  - bun-first/
+    - RULES.md  (from Bun-first source, edited for public + clarity)
+  - ai-alchemy-standards/
+    - RULES.md  (from coding standards source, edited for public + clarity)
+  - core/
+    - RULES.md  (universal agent behavior: plan-first, verification, safety, small PRs, etc.)
+  - profiles/
+    - bun-stack.md   (how to combine core + bun-first + optional ts standards)
+    - node-stack.md  (how to combine core + typical node toolchain, for compatibility)
+- adapters/
+  - cursor/
+    - rules/
+      - 00-core.mdc
+      - 10-bun-first.mdc
+      - 20-ai-alchemy-standards.mdc
+      - 90-conflicts.mdc
+  - vscode-copilot/
+    - copilot-instructions.md
+  - kiro/
+    - project.md (or equivalent steering prompt; short pointer to packs)
+  - antigravity-gemini/
+    - GEMINI.md (supports @includes; point to packs)
+- install/
+  - install-to-home.sh  (installs to ~/.ai from this repo)
+  - update.sh           (re-run install, idempotent)
+- examples/
+  - sample-repo/AGENTS.md (canonical repo-level entry file that points to packs + ~/.ai optional)
+
+## Canonical approach
+- Canonical human/agent entry file should be `AGENTS.md` in a consuming repo.
+- Show how to layer: Org (~/.ai) -> Repo (AGENTS.md + .ai/) -> Domain/folder rules.
+- Adapters must be thin: they mostly tell tools to follow AGENTS.md and/or the chosen profile.
+
+## Conflict policy (must be explicit)
+Create a “Conflict resolution” section that states:
+- Specific overrides general.
+- Repo overrides ~/.ai.
+- Profile selection decides toolchain (bun-stack vs node-stack).
+- If bun-stack is selected: bun install/test/build/serve and Bun APIs take priority.
+
+# Implementation steps
+1) Scaffold folders/files above.
+2) Convert Bun-first rules into `packs/bun-first/RULES.md` and Cursor adapter mdc.
+3) Convert AI Alchemy coding standards into `packs/ai-alchemy-standards/RULES.md` and Cursor adapter mdc.
+4) Write `packs/core/RULES.md` (universal behavior: plan-first for >30 LOC, verify commands, tests, security, doc updates, small diffs).
+5) Write README with:
+   - Why layered rules
+   - Quickstart (choose profile, install ~/.ai, add AGENTS.md)
+   - Tool adapters overview
+6) Ensure install scripts are safe:
+   - create ~/.ai
+   - copy selected packs or full packs (choose full packs by default)
+   - do not overwrite user custom files without backup
+7) Final output must include:
+   - a concise list of created files
+   - how to test install locally
+   - how a consumer repo uses it (example snippet)
+
+# Quality bar
+- No contradictions left unresolved: if standards mention pnpm/express/jest, keep it under node-stack profile, and note bun-stack alternative.
+- Keep each RULES.md under ~200-300 lines; break into sections.
+- Use consistent language: MUST / SHOULD / MAY.

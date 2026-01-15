@@ -1,0 +1,22 @@
+---
+description: Bun-first toolchain: use Bun instead of Node.js, npm, pnpm, or vite
+globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
+alwaysApply: false
+---
+
+# Bun-first Development
+
+This rule file points to `packs/bun-first/RULES.md`.
+
+**When to apply**: Use this when the repo selects the `bun-stack` profile or explicitly uses Bun.
+
+**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.aialchemylabs/packs/bun-first/RULES.md` or the installed packs.
+
+**Quick reference**:
+- Use `bun install`, `bun test`, `bun build`, `bun run <script>`
+- Prefer `Bun.serve()` over Express
+- Prefer `bun:sqlite`, `Bun.redis`, `Bun.sql` over Node equivalents
+- Use `Bun.file` and `Bun.$` for file/process operations
+- Use HTML imports with `Bun.serve()` instead of Vite for frontend
+
+See `packs/bun-first/RULES.md` for full details.

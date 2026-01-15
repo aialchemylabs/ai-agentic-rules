@@ -1,0 +1,19 @@
+---
+description: AI Alchemy coding standards: structure, naming, testing, security
+alwaysApply: false
+---
+
+# AI Alchemy Coding Standards
+
+This rule file points to `packs/ai-alchemy-standards/RULES.md`.
+
+**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.aialchemylabs/packs/ai-alchemy-standards/RULES.md` or the installed packs.
+
+**Key points**:
+- Feature-first organization (not by file type)
+- Strict type safety and runtime validation at boundaries
+- Small, verifiable changes
+- Tests required for new features and bug fixes
+- No secrets in code/logs/docs
+
+See `packs/ai-alchemy-standards/RULES.md` for full standards.

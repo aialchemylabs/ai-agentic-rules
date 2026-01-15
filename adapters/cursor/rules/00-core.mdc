@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+
+# Core Agent Rules
+
+This rule file points to the canonical `packs/core/RULES.md` for universal agent behavior.
+
+**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.aialchemylabs/packs/core/RULES.md` or the installed packs.
+
+**Key points**:
+- Plan first for non-trivial changes (>30 LOC, multi-file, new deps, API changes)
+- Repo rules override org/user-global rules
+- Enforcement (CI/lint/tests) overrides written guidance
+- Profile selection (bun-stack vs node-stack) decides toolchain
+
+See `packs/core/RULES.md` for full conflict resolution and behavior rules.
