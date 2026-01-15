@@ -10,7 +10,7 @@ This rule file summarizes conflict resolution from `packs/core/RULES.md`.
 
 1. **Enforcement wins**: CI checks, linters, typecheck, tests, build pipelines override written guidance
 2. **Specific beats general**: Folder/domain rules > repo-root rules > org/user-global packs
-3. **Repo overrides user-global**: Repo's `AGENTS.md` and `.aialchemylabs/` override `~/.aialchemylabs/`
+3. **Repo overrides user-global**: Repo's `AGENTS.md` and `.ai-coding-rules/` override `~/.ai-coding-rules/`
 4. **Profile decides toolchain**:
    - `bun-stack` → prefer Bun tooling and Bun-native APIs
    - `node-stack` → prefer Node/pnpm/Vite/Jest/Express

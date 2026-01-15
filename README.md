@@ -8,7 +8,7 @@ A modular system for defining how AI coding agents (and humans) should work in y
 
 ## Philosophy
 
-- **Layered**: Org-wide (`~/.aialchemylabs/`) → Repo (`AGENTS.md`) → Domain/folder rules
+- **Layered**: Org-wide (`~/.ai-coding-rules/`) → Repo (`AGENTS.md`) → Domain/folder rules
 - **Tool-agnostic**: Canonical rules live in packs; adapters are thin pointers
 - **Composable**: Mix and match packs via profiles
 - **Explicit conflicts**: Clear policy for resolving toolchain and rule conflicts
@@ -16,44 +16,71 @@ A modular system for defining how AI coding agents (and humans) should work in y
 
 ## Quick start
 
-### 1. Install packs (optional)
+### Option 1: Interactive CLI (Recommended)
 
-Install packs to `~/.aialchemylabs/` for org-wide use:
+The easiest way to get started is using the interactive CLI:
 
 ```bash
-./install/install-to-home.sh
+npx ai-coding-rules init
 ```
 
-### 2. Choose a profile
+This will:
+1. Download the latest rules and adapters from GitHub (no bundled files)
+2. Silently overwrite `~/.ai-coding-rules/` with the latest packs
+3. Prompt you to select a profile (bun-stack, node-stack, or mobile-stack)
+4. Prompt you to select which AI tools you use (Cursor, VS Code Copilot, Kiro, Gemini)
+5. Create `AGENTS.md` in your current repo (overwrites silently)
+6. Configure your selected tools automatically
 
-Select a profile that matches your stack:
+### Option 2: Remote installer script
 
-- **`bun-stack`**: Bun-first tooling + TypeScript + coding standards
-- **`node-stack`**: Node/pnpm/Vite/Jest + TypeScript + coding standards
-- **`mobile-stack`**: Android + iOS + coding standards
+Install directly from GitHub without cloning:
 
-### 3. Create `AGENTS.md` in your repo
-
-Create an `AGENTS.md` file in your repo root:
-
-```markdown
-# Agent Rules for This Repository
-
-Profile: bun-stack
-
-# Repo-specific overrides
-- Use Next.js App Router
-- Prefer shadcn/ui components
+```bash
+curl -fsSL https://raw.githubusercontent.com/aialchemylabs/ai-agentic-rules/main/install/install-from-remote.sh | bash
 ```
 
-See `examples/sample-repo/AGENTS.md` for a complete example.
+Then run `npx ai-coding-rules init` in your repo to configure it.
 
-### 4. Configure your tool adapter
+### Option 3: Manual installation
 
-- **Cursor**: Copy `adapters/cursor/rules/*.mdc` to `.cursor/rules/` (create the folder if needed)
-- **VS Code Copilot**: See `adapters/vscode-copilot/copilot-instructions.md`
-- **Kiro**: See `adapters/kiro/project.md`
-- **Gemini/Antigravity**: See `adapters/antigravity-gemini/GEMINI.md`
+1. **Clone and install packs**:
+   ```bash
+   git clone https://github.com/aialchemylabs/ai-agentic-rules.git
+   cd ai-agentic-rules
+   ./install/install-to-home.sh
+   ```
+
+2. **Choose a profile**:
+   - **`bun-stack`**: Bun-first tooling + TypeScript + coding standards
+   - **`node-stack`**: Node/pnpm/Vite/Jest + TypeScript + coding standards
+   - **`mobile-stack`**: Android + iOS + coding standards
+
+3. **Create `AGENTS.md`** in your repo root:
+   ```markdown
+   # Agent Rules for This Repository
+   
+   Profile: bun-stack
+   
+   # Repo-specific overrides
+   - Use Next.js App Router
+   - Prefer shadcn/ui components
+   ```
+   See `examples/sample-repo/AGENTS.md` for a complete example.
+
+4. **Configure your tool adapter**:
+   - **Cursor**: Copy `adapters/cursor/rules/*.mdc` to `.cursor/rules/` (create the folder if needed)
+   - **VS Code Copilot**: See `adapters/vscode-copilot/copilot-instructions.md`
+   - **Kiro**: See `adapters/kiro/project.md`
+   - **Gemini/Antigravity**: See `adapters/antigravity-gemini/GEMINI.md`
+
+## Key decisions
+
+- **Silent overwrite**: No prompts or backups; `~/.ai-coding-rules/` and `AGENTS.md` are replaced.
+- **Multi-select IDEs**: Configure multiple tools in one run.
+- **Profile selection**: Included in the CLI flow.
+- **GitHub as source**: Always downloads from the current repo/branch; no bundled files.
+- **Sponsor CTA**: Prints a "Buy us a coffee" message at the end of successful setup.
 
 ## Structure
 
@@ -66,7 +93,7 @@ ai-agentic-rules/
 │   ├── java/                # Java standards
 │   ├── android/             # Android/Kotlin standards
 │   ├── ios/                 # iOS/Swift standards
-│   ├── ai-alchemy-standards/ # Coding standards
+│   ├── ai-coding-standards/ # Coding standards
 │   └── profiles/            # Profile definitions
 │       ├── bun-stack.md
 │       ├── node-stack.md
@@ -78,6 +105,7 @@ ai-agentic-rules/
 │   └── antigravity-gemini/
 ├── install/                 # Installation scripts
 │   ├── install-to-home.sh
+│   ├── install-from-remote.sh
 │   └── update.sh
 └── examples/                # Example usage
     └── sample-repo/
@@ -90,8 +118,8 @@ Rules are applied in this order (highest to lowest priority):
 
 1. **Enforcement**: CI checks, linters, typecheck, tests, build pipelines
 2. **Domain/folder rules**: Directory-specific overrides
-3. **Repo rules**: `AGENTS.md` and `.aialchemylabs/` directory in the repo
-4. **Org-wide rules**: `~/.aialchemylabs/packs/` (if installed)
+3. **Repo rules**: `AGENTS.md` and `.ai-coding-rules/` directory in the repo
+4. **Org-wide rules**: `~/.ai-coding-rules/packs/` (if installed)
 5. **Profile defaults**: Pack combinations defined in profiles
 
 See `packs/core/RULES.md` for the full conflict resolution policy.
@@ -102,7 +130,7 @@ When multiple rule sources apply:
 
 1. **Enforcement wins**: CI/lint/tests override written guidance
 2. **Specific beats general**: Folder rules > repo rules > org rules
-3. **Repo overrides org**: Repo's `AGENTS.md` and `.aialchemylabs/` override `~/.aialchemylabs/`
+3. **Repo overrides org**: Repo's `AGENTS.md` and `.ai-coding-rules/` override `~/.ai-coding-rules/`
 4. **Profile decides toolchain**: `bun-stack` → Bun, `node-stack` → Node/pnpm/Vite
 5. **Match the repo**: If repo already chose a toolchain, follow it
 
@@ -113,7 +141,7 @@ When multiple rule sources apply:
 - `packs/core` — Universal agent behavior
 - `packs/bun-first` — Bun toolchain (bun install/test/build/serve)
 - `packs/typescript` — TypeScript strictness
-- `packs/ai-alchemy-standards` — Coding standards
+- `packs/ai-coding-standards` — Coding standards
 
 **Toolchain**: Bun, `bun:sqlite`, `Bun.redis`, `Bun.sql`, `Bun.serve()`, HTML imports
 
@@ -121,7 +149,7 @@ When multiple rule sources apply:
 
 - `packs/core` — Universal agent behavior
 - `packs/typescript` — TypeScript strictness
-- `packs/ai-alchemy-standards` — Coding standards
+- `packs/ai-coding-standards` — Coding standards
 
 **Toolchain**: Node.js, pnpm (preferred), Vite, Jest/Vitest, Express
 
@@ -130,7 +158,7 @@ When multiple rule sources apply:
 - `packs/core` — Universal agent behavior
 - `packs/android` — Android/Kotlin standards
 - `packs/ios` — iOS/Swift standards
-- `packs/ai-alchemy-standards` — Coding standards
+- `packs/ai-coding-standards` — Coding standards
 
 **Toolchain**: Kotlin, Gradle, Android SDK / Swift, Xcode, SPM/CocoaPods
 
@@ -159,15 +187,6 @@ See `adapters/kiro/project.md` for configuration.
 
 See `adapters/antigravity-gemini/GEMINI.md` for `@include` usage.
 
-## Legacy single-file rules
-
-For tools that can only accept a single rule file, use these legacy summaries:
-
-- `bun-first.md` — Bun-first toolchain guidance
-- `coding-standards.md` — AI Alchemy coding standards
-
-Prefer the pack versions under `packs/` for new setups.
-
 ## Local validation
 
 ### Test install script
@@ -180,10 +199,7 @@ Prefer the pack versions under `packs/` for new setups.
 ./install/install-to-home.sh
 
 # Verify packs are installed
-ls -la ~/.aialchemylabs/packs/
-
-# Check backups (if any files were overwritten)
-ls -la ~/.aialchemylabs/.backup-*/
+ls -la ~/.ai-coding-rules/packs/
 ```
 
 ### Verify structure
@@ -199,9 +215,28 @@ test -x install/update.sh && echo "✓ update script is executable"
 
 ## How a consuming repo uses this
 
+### Using the CLI (Recommended)
+
+```bash
+# In your repo root
+npx ai-coding-rules init
+```
+
+This automatically:
+- Downloads the latest rules and adapters from GitHub (no bundled files)
+- Silently overwrites `~/.ai-coding-rules/` and `AGENTS.md`
+- Creates `AGENTS.md` with your selected profile
+- Configures your selected IDE tools
+
+### Manual setup
+
 1. **Install packs** (optional, for org-wide use):
    ```bash
-   git clone https://github.com/your-org/ai-agentic-rules.git
+   # Option A: Remote installer
+   curl -fsSL https://raw.githubusercontent.com/aialchemylabs/ai-agentic-rules/main/install/install-from-remote.sh | bash
+   
+   # Option B: Clone and install
+   git clone https://github.com/aialchemylabs/ai-agentic-rules.git
    cd ai-agentic-rules
    ./install/install-to-home.sh
    ```
@@ -225,9 +260,15 @@ test -x install/update.sh && echo "✓ update script is executable"
 
 4. **Agents will**:
    - Read `AGENTS.md` first
-   - Load profile packs from `~/.aialchemylabs/packs/` or repo's `.aialchemylabs/`
+   - Load profile packs from `~/.ai-coding-rules/packs/` or repo's `.ai-coding-rules/`
    - Apply repo-specific overrides
    - Follow conflict resolution policy
+
+## Support
+
+If this project saved you time or helped improve your development workflow, consider supporting our work:
+
+**[Sponsor us on GitHub](https://github.com/sponsors/aialchemylabs)** — Buy us a coffee and help us continue building open-source tools for the AI coding community.
 
 ## License
 

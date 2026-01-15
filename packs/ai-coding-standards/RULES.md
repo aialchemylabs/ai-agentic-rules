@@ -1,4 +1,4 @@
-# AI Alchemy Coding Standards (Public)
+# AI Coding Standards (Public)
 
 These standards define how code should be written, structured, tested, and reviewed when working with AI-assisted development.
 
@@ -105,4 +105,3 @@ AI agents working under these standards:
 - **MUST** follow existing repo patterns and tooling.
 - **MUST** run (or clearly specify) lint/typecheck/test steps before final output.
 - **MUST** state assumptions explicitly when they affect correctness.
-

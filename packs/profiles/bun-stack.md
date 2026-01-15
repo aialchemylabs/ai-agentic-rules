@@ -7,7 +7,7 @@ This profile combines core agent behavior with Bun-first tooling and TypeScript 
 1. **`packs/core`** — Universal agent behavior, conflict resolution, planning, safety
 2. **`packs/bun-first`** — Bun toolchain defaults (bun install/test/build/serve, Bun-native APIs)
 3. **`packs/typescript`** — TypeScript strictness, type safety, boundaries
-4. **`packs/ai-alchemy-standards`** — Coding standards (structure, naming, testing, security)
+4. **`packs/ai-coding-standards`** — Coding standards (structure, naming, testing, security)
 
 ## Toolchain decisions
 

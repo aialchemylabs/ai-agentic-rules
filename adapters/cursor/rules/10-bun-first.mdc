@@ -10,7 +10,7 @@ This rule file points to `packs/bun-first/RULES.md`.
 
 **When to apply**: Use this when the repo selects the `bun-stack` profile or explicitly uses Bun.
 
-**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.aialchemylabs/packs/bun-first/RULES.md` or the installed packs.
+**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.ai-coding-rules/packs/bun-first/RULES.md` or the installed packs.
 
 **Quick reference**:
 - Use `bun install`, `bun test`, `bun build`, `bun run <script>`

@@ -6,7 +6,7 @@ This profile combines core agent behavior with Node-compatible tooling and TypeS
 
 1. **`packs/core`** — Universal agent behavior, conflict resolution, planning, safety
 2. **`packs/typescript`** — TypeScript strictness, type safety, boundaries
-3. **`packs/ai-alchemy-standards`** — Coding standards (structure, naming, testing, security)
+3. **`packs/ai-coding-standards`** — Coding standards (structure, naming, testing, security)
 
 ## Toolchain decisions
 

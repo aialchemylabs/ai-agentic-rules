@@ -4,7 +4,7 @@ This adapter provides instructions for using `ai-agentic-rules` with Kiro.
 
 ## Setup
 
-1. **Install packs** (optional): Run `install/install-to-home.sh` to copy packs to `~/.aialchemylabs/`
+1. **Install packs** (optional): Run `install/install-to-home.sh` to copy packs to `~/.ai-coding-rules/`
 2. **Create repo-level `AGENTS.md`**: Add an `AGENTS.md` file in your repo root
 
 ## Usage
@@ -12,7 +12,7 @@ This adapter provides instructions for using `ai-agentic-rules` with Kiro.
 Kiro should follow the rules defined in:
 
 1. **Primary**: `AGENTS.md` in the repo root (if present)
-2. **Fallback**: Packs installed in `~/.aialchemylabs/packs/` or the repo's `.aialchemylabs/` directory
+2. **Fallback**: Packs installed in `~/.ai-coding-rules/packs/` or the repo's `.ai-coding-rules/` directory
 
 ## Profile selection
 
@@ -42,5 +42,5 @@ Kiro should load:
 - `packs/core/RULES.md`
 - `packs/bun-first/RULES.md`
 - `packs/typescript/RULES.md`
-- `packs/ai-alchemy-standards/RULES.md`
+- `packs/ai-coding-standards/RULES.md`
 - Plus any repo-specific rules from this file

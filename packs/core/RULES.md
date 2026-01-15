@@ -12,7 +12,7 @@ When multiple rule sources apply, resolve conflicts in this order:
 2. **Specific beats general**:
    - Folder/domain rules override repo-root rules.
    - Repo-root rules override org/user-global packs.
-3. **Repo overrides user-global**: a consuming repo’s `AGENTS.md` and `.aialchemylabs/` override `~/.aialchemylabs/`.
+3. **Repo overrides user-global**: a consuming repo’s `AGENTS.md` and `.ai-coding-rules/` override `~/.ai-coding-rules/`.
 4. **Profile decides toolchain**:
    - If the selected profile is **bun-stack**, prefer Bun tooling and Bun-native APIs (see `packs/bun-first`).
    - If the selected profile is **node-stack**, prefer Node/pnpm/Vite/Jest/Express (or the repo’s existing equivalents).

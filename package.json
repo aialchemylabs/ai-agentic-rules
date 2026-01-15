@@ -1,0 +1,32 @@
+{
+  "name": "ai-coding-rules",
+  "version": "1.0.0",
+  "description": "Universal, tool-agnostic instruction packs for AI coding agents",
+  "type": "module",
+  "bin": {
+    "ai-coding-rules": "./bin/ai-coding-rules.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aialchemylabs/ai-agentic-rules.git"
+  },
+  "keywords": [
+    "ai",
+    "coding",
+    "rules",
+    "agent",
+    "cursor",
+    "copilot",
+    "kiro",
+    "gemini"
+  ],
+  "author": "AI Alchemy Labs",
+  "license": "MIT",
+  "dependencies": {
+    "prompts": "^2.4.2",
+    "tar": "^7.4.3"
+  }
+}

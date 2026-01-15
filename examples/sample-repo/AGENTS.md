@@ -10,13 +10,13 @@ This means agents should load:
 - `packs/core` — Universal agent behavior
 - `packs/bun-first` — Bun toolchain defaults
 - `packs/typescript` — TypeScript standards
-- `packs/ai-alchemy-standards` — Coding standards
+- `packs/ai-coding-standards` — Coding standards
 
 ## Pack sources (priority order)
 
-1. **Repo-specific rules** (this file and `.aialchemylabs/` directory)
-2. **Org-wide rules** (`~/.aialchemylabs/packs/` if installed)
-3. **Profile defaults** (from `ai-agentic-rules` repository)
+1. **Repo-specific rules** (this file and `.ai-coding-rules/` directory)
+2. **Org-wide rules** (`~/.ai-coding-rules/packs/` if installed)
+3. **Profile defaults** (from the GitHub repository)
 
 ## Repo-specific overrides
 
@@ -38,7 +38,7 @@ This means agents should load:
 
 When rules conflict:
 1. **Enforcement wins**: CI/lint/tests override written guidance
-2. **This file** overrides org-wide packs (`~/.aialchemylabs/`)
+2. **This file** overrides org-wide packs (`~/.ai-coding-rules/`)
 3. **Profile selection** (`bun-stack`) decides toolchain (Bun over Node/pnpm/Vite)
 4. **Existing repo patterns** take precedence unless explicitly migrating
 
@@ -57,7 +57,7 @@ When rules conflict:
 ## How agents should use this
 
 1. Read this file first
-2. Load the selected profile's packs (from `~/.aialchemylabs/packs/` or repo's `.aialchemylabs/` directory)
+2. Load the selected profile's packs (from `~/.ai-coding-rules/packs/` or repo's `.ai-coding-rules/` directory)
 3. Apply repo-specific overrides from this file
 4. Follow domain-specific rules for the current directory
 5. When uncertain, choose the option that changes less and matches existing patterns

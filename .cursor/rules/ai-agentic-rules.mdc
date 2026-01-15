@@ -12,7 +12,7 @@ You are implementing a new public GitHub repository named `ai-agentic-rules`. Th
 
 # Source material to incorporate (convert into modular packs)
 1) Bun-first agent rules (commands, APIs, frontend bundling, testing) — treat as a dedicated pack.
-2) AI Alchemy coding standards (TS strictness, naming, repo structure, stack conventions, testing, security, CI gates) — treat as a dedicated pack.
+2) AI coding standards (TS strictness, naming, repo structure, stack conventions, testing, security, CI gates) — treat as a dedicated pack.
 
 # Deliverables (must create all)
 ## Repo structure
@@ -22,7 +22,7 @@ Create:
 - packs/
   - bun-first/
     - RULES.md  (from Bun-first source, edited for public + clarity)
-  - ai-alchemy-standards/
+  - ai-coding-standards/
     - RULES.md  (from coding standards source, edited for public + clarity)
   - core/
     - RULES.md  (universal agent behavior: plan-first, verification, safety, small PRs, etc.)
@@ -34,7 +34,7 @@ Create:
     - rules/
       - 00-core.mdc
       - 10-bun-first.mdc
-      - 20-ai-alchemy-standards.mdc
+      - 20-ai-coding-standards.mdc
       - 90-conflicts.mdc
   - vscode-copilot/
     - copilot-instructions.md
@@ -63,7 +63,7 @@ Create a “Conflict resolution” section that states:
 # Implementation steps
 1) Scaffold folders/files above.
 2) Convert Bun-first rules into `packs/bun-first/RULES.md` and Cursor adapter mdc.
-3) Convert AI Alchemy coding standards into `packs/ai-alchemy-standards/RULES.md` and Cursor adapter mdc.
+3) Convert AI coding standards into `packs/ai-coding-standards/RULES.md` and Cursor adapter mdc.
 4) Write `packs/core/RULES.md` (universal behavior: plan-first for >30 LOC, verify commands, tests, security, doc updates, small diffs).
 5) Write README with:
    - Why layered rules
@@ -72,7 +72,7 @@ Create a “Conflict resolution” section that states:
 6) Ensure install scripts are safe:
    - create ~/.ai
    - copy selected packs or full packs (choose full packs by default)
-   - do not overwrite user custom files without backup
+   - silently replace everything in ~/.ai-coding-rules/
 7) Final output must include:
    - a concise list of created files
    - how to test install locally

@@ -6,7 +6,7 @@ alwaysApply: true
 
 This rule file points to the canonical `packs/core/RULES.md` for universal agent behavior.
 
-**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.aialchemylabs/packs/core/RULES.md` or the installed packs.
+**Primary source**: If this repo has an `AGENTS.md`, follow it. Otherwise, refer to `~/.ai-coding-rules/packs/core/RULES.md` or the installed packs.
 
 **Key points**:
 - Plan first for non-trivial changes (>30 LOC, multi-file, new deps, API changes)

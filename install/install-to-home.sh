@@ -1,8 +1,7 @@
 #!/bin/bash
 # install-to-home.sh
-# Installs ai-agentic-rules packs to ~/.aialchemylabs/
-# Idempotent: safe to run multiple times
-# Backs up existing files before overwriting
+# Installs ai-agentic-rules packs to ~/.ai-coding-rules/
+# Silently replaces everything in ~/.ai-coding-rules/
 
 set -euo pipefail
 
@@ -40,8 +39,7 @@ done
 # Determine script location and repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TARGET_DIR="$HOME/.aialchemylabs"
-BACKUP_DIR="$TARGET_DIR/.backup-$(date +%Y%m%d-%H%M%S)"
+TARGET_DIR="$HOME/.ai-coding-rules"
 
 echo -e "${GREEN}Installing ai-agentic-rules to $TARGET_DIR${NC}"
 
@@ -54,7 +52,8 @@ if command -v rsync >/dev/null 2>&1; then
 fi
 
 if [[ "$DRY_RUN" == "false" ]]; then
-  # Create target directory if it doesn't exist
+  # Remove existing directory and recreate (silent overwrite)
+  rm -rf "$TARGET_DIR"
   mkdir -p "$TARGET_DIR"
 fi
 
@@ -71,9 +70,6 @@ install_item() {
   fi
 
   if [[ "$DRY_RUN" == "true" ]]; then
-    if [[ -e "$dest" ]] && ! diff -qr "$src" "$dest" >/dev/null 2>&1; then
-      echo -e "${YELLOW}Would back up existing: $item_name${NC}"
-    fi
     echo -e "${GREEN}Would install: $item_name${NC}"
     return 0
   fi
@@ -81,17 +77,7 @@ install_item() {
   # Create parent directory
   mkdir -p "$(dirname "$dest")"
 
-  # If destination exists and differs, back it up
-  if [[ -e "$dest" ]]; then
-    if ! diff -qr "$src" "$dest" >/dev/null 2>&1; then
-      echo -e "${YELLOW}Backing up existing: $item_name${NC}"
-      mkdir -p "$BACKUP_DIR"
-      mkdir -p "$(dirname "$BACKUP_DIR/$item_name")"
-      cp -R "$dest" "$BACKUP_DIR/$item_name"
-    fi
-  fi
-
-  # Copy source to destination
+  # Copy source to destination (silent overwrite)
   if [[ -d "$src" ]]; then
     if [[ "$USE_RSYNC" == "true" ]]; then
       mkdir -p "$dest"
@@ -130,12 +116,7 @@ fi
 echo -e "\n${GREEN}Installation complete!${NC}"
 echo -e "Packs installed to: ${GREEN}$TARGET_DIR/packs${NC}"
 
-if [[ -d "$BACKUP_DIR" ]] && [[ -n "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]]; then
-  echo -e "Backups saved to: ${YELLOW}$BACKUP_DIR${NC}"
-  echo -e "To restore a backup, copy files from $BACKUP_DIR back to $TARGET_DIR"
-fi
-
 echo -e "\n${GREEN}Next steps:${NC}"
 echo "1. Create an AGENTS.md in your repo root"
-echo "2. Reference packs from ~/.aialchemylabs/packs/ or copy them to your repo's .aialchemylabs/ directory"
+echo "2. Reference packs from ~/.ai-coding-rules/packs/ or copy them to your repo's .ai-coding-rules/ directory"
 echo "3. See examples/sample-repo/AGENTS.md for a template"

@@ -7,7 +7,7 @@ This profile combines core agent behavior with Android and iOS platform standard
 1. **`packs/core`** — Universal agent behavior, conflict resolution, planning, safety
 2. **`packs/android`** — Android/Kotlin standards (MVVM, Compose, coroutines, testing)
 3. **`packs/ios`** — iOS/Swift standards (MVVM, SwiftUI, concurrency, testing)
-4. **`packs/ai-alchemy-standards`** — Coding standards (structure, naming, testing, security)
+4. **`packs/ai-coding-standards`** — Coding standards (structure, naming, testing, security)
 
 ## Toolchain decisions
 
