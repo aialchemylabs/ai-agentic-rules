@@ -15,12 +15,160 @@ A modular system for defining how AI coding agents (and humans) should work in y
 - **Composable**: Mix and match packs via profiles
 - **Explicit conflicts**: Clear policy for resolving toolchain and rule conflicts
 - **Public-safe**: No secrets, no internal URLs, no client names
+- **Human-owned**: Your project context is never overwritten
 
-## Quick start
+## Quick Start (Minimum Useful Setup)
+
+Get started with a single command:
+
+```bash
+npx @aialchemy/ai-coding-rules init
+```
+
+That's it! This will:
+1. Download the latest rules and adapters from GitHub
+2. Prompt you to select a profile (bun-stack, node-stack, or mobile-stack)
+3. Prompt you to select which AI tools you use (Cursor, VS Code Copilot, Kiro, Gemini)
+4. Create a composed file structure that preserves your context
+5. Configure your selected tools automatically
+
+**Outcome**: Governance rules active, tool configured, human context preserved.
+
+## What This Tool Does (and Doesn't Do)
+
+### ✅ What it does:
+- Governs **how** work happens (coding standards, conflict resolution, planning)
+- Provides toolchain guidance (Bun vs Node, testing frameworks, etc.)
+- Ensures consistency across your codebase
+- Helps AI agents understand your project conventions
+
+### ❌ What it doesn't do:
+- Replace developers
+- Write business logic
+- Make architectural decisions for you
+- Run code or deploy applications
+
+## CLI Modes
+
+The CLI supports three modes for different use cases:
+
+### Compose Mode (Default)
+
+```bash
+ai-coding-rules init --mode=compose
+```
+
+**Behavior**:
+- Creates or updates `AGENTS.rules.md` (system-managed)
+- Creates `AGENTS.md` only if missing (shared entry point)
+- Creates `AGENTS.local.md` only if missing (human-managed, never overwritten)
+- Never deletes or overwrites human content
+
+**Use case**: Default setup for new and existing projects.
+
+### Replace Mode (Advanced)
+
+```bash
+ai-coding-rules init --mode=replace
+```
+
+**Behavior**:
+- Fully regenerates `AGENTS.md`
+- Requires explicit confirmation
+- Displays a warning before proceeding
+
+**Use case**: When you want to start fresh with a completely new configuration.
+
+### Check Mode (CI/Validation)
+
+```bash
+ai-coding-rules init --mode=check
+```
+
+**Behavior**:
+- Does not write files
+- Validates rule resolution
+- Returns non-zero exit code on conflicts
+- Validates pack availability and adapter configuration
+
+**Use case**: CI/CD pipelines, validation before deployment.
+
+## Plan Command
+
+Preview what would change without writing any files:
+
+```bash
+ai-coding-rules plan
+```
+
+**Output includes**:
+- Files to be created
+- Files to be modified
+- Files untouched
+- Rule packs applied
+- Conflict resolution decisions
+
+**Use case**: High-trust feature for understanding impact before running.
+
+## Non-interactive options (CI-friendly)
+
+You can skip prompts by providing explicit flags:
+
+```bash
+ai-coding-rules init --mode=compose --profile=bun-stack --tools=cursor,vscode
+ai-coding-rules plan --profile=node-stack --tools=cursor,kiro,gemini
+ai-coding-rules check --profile=mobile-stack
+```
+
+## File Ownership
+
+The CLI creates a composed file structure with clear ownership:
+
+| File            | Owner  | Overwritten by CLI |
+| --------------- | ------ | ------------------ |
+| AGENTS.md       | Shared | Only if missing    |
+| AGENTS.rules.md | System | Yes                |
+| AGENTS.local.md | Human  | Never              |
+
+### File Structure
+
+```
+AGENTS.md              # Entry point (human-readable, references other files)
+AGENTS.rules.md        # System-managed (auto-generated, contains governance rules)
+AGENTS.local.md        # Human-managed (never overwritten, your project context)
+```
+
+### AGENTS.md (Entry Point)
+
+```markdown
+# Agent Context
+
+This file is the **canonical entry point** for AI coding agents working in this repo.
+
+## Governance Rules (Auto-generated)
+
+<!-- DO NOT EDIT -->
+See: ./AGENTS.rules.md
+
+## Project Context (Human-maintained)
+
+See: ./AGENTS.local.md
+```
+
+### AGENTS.local.md (Your Space)
+
+Edit this file to add:
+- Project overview and goals
+- Architecture decisions
+- Team-specific guidelines
+- Domain-specific rules
+- Any other project context
+
+**Important**: This file is never overwritten by AI Agentic Rules.
+
+## Installation Options
 
 ### Option 1: Interactive CLI (Recommended)
-
-The easiest way to get started is using the interactive CLI:
 
 ```bash
 npx @aialchemy/ai-coding-rules init
@@ -28,17 +176,7 @@ npx @aialchemy/ai-coding-rules init
 
 If you install the CLI globally, you can run `ai-coding-rules init` directly.
 
-This will:
-1. Download the latest rules and adapters from GitHub (no bundled files)
-2. Silently overwrite `~/.ai-coding-rules/` with the latest packs
-3. Prompt you to select a profile (bun-stack, node-stack, or mobile-stack)
-4. Prompt you to select which AI tools you use (Cursor, VS Code Copilot, Kiro, Gemini)
-5. Create `AGENTS.md` in your current repo (overwrites silently)
-6. Configure your selected tools automatically
-
 ### Option 2: Remote installer script
-
-Install directly from GitHub without cloning:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/aialchemylabs/ai-agentic-rules/main/install/install-from-remote.sh | bash
@@ -78,14 +216,6 @@ Then run `npx @aialchemy/ai-coding-rules init` in your repo to configure it.
    - **Kiro**: See `adapters/kiro/project.md`
    - **Gemini/Antigravity**: See `adapters/antigravity-gemini/GEMINI.md`
 
-## Key decisions
-
-- **Silent overwrite**: No prompts or backups; `~/.ai-coding-rules/` and `AGENTS.md` are replaced.
-- **Multi-select IDEs**: Configure multiple tools in one run.
-- **Profile selection**: Included in the CLI flow.
-- **GitHub as source**: Always downloads from the current repo/branch; no bundled files.
-- **Sponsor CTA**: Prints a "Buy us a coffee" message at the end of successful setup.
-
 ## Structure
 
 ```
@@ -121,22 +251,48 @@ ai-agentic-rules/
 Rules are applied in this order (highest to lowest priority):
 
 1. **Enforcement**: CI checks, linters, typecheck, tests, build pipelines
-2. **Domain/folder rules**: Directory-specific overrides
-3. **Repo rules**: `AGENTS.md` and `.ai-coding-rules/` directory in the repo
-4. **Org-wide rules**: `~/.ai-coding-rules/packs/` (if installed)
-5. **Profile defaults**: Pack combinations defined in profiles
+2. **Org-wide rules**: `~/.ai-coding-rules/packs/` (if installed)
+3. **Repo rules**: `.ai-coding-rules/` directory in the repo
+4. **Domain/folder rules**: Directory-specific overrides (if present)
+5. **Local context**: `AGENTS.local.md`
+6. **Profile defaults**: Pack combinations defined in profiles
 
 See `packs/core/RULES.md` for the full conflict resolution policy.
 
-## Conflict resolution
+## Conflict Resolution
 
 When multiple rule sources apply:
 
 1. **Enforcement wins**: CI/lint/tests override written guidance
-2. **Specific beats general**: Folder rules > repo rules > org rules
-3. **Repo overrides org**: Repo's `AGENTS.md` and `.ai-coding-rules/` override `~/.ai-coding-rules/`
+2. **Specific beats general**: Folder rules > repo rules
+3. **Explicit precedence**: `org > repo > folder > local`
 4. **Profile decides toolchain**: `bun-stack` → Bun, `node-stack` → Node/pnpm/Vite
 5. **Match the repo**: If repo already chose a toolchain, follow it
+
+## Pack Editing Guidance
+
+- **Core packs**: canonical, do not edit directly.
+- **Org packs**: fork and own for your company’s rules.
+- **Local overrides**: use `AGENTS.local.md` or repo-level packs for project-specific context.
+
+**Precedence rule**: `org > repo > folder > local`
+
+## Rule Pack Maturity
+
+Each pack declares a maturity level in its `metadata.json`:
+
+### Pack Types
+
+- **`core`** — Canonical, rarely changed (e.g., `core`, `typescript`, `ai-coding-standards`)
+- **`opinionated`** — Stack-specific (e.g., `bun-first`, `android`, `ios`)
+- **`org`** — Company-owned (for org-specific packs)
+- **`experimental`** — Evolving (for experimental features)
+
+### Editing Guidance
+
+- **Core packs** should not be edited directly
+- **Org packs** are expected to be forked
+- **Local overrides** are supported and encouraged (via `AGENTS.local.md`)
 
 ## Profiles
 
@@ -166,7 +322,7 @@ When multiple rule sources apply:
 
 **Toolchain**: Kotlin, Gradle, Android SDK / Swift, Xcode, SPM/CocoaPods
 
-## Tool adapters
+## Tool Adapters
 
 ### Cursor
 
@@ -179,19 +335,27 @@ cp /path/to/ai-agentic-rules/adapters/cursor/rules/*.mdc .cursor/rules/
 
 The adapters point to `AGENTS.md` and installed packs.
 
+**CLI output**: `✔ Cursor adapter applied → .cursor/rules/`
+
 ### VS Code Copilot
 
 See `adapters/vscode-copilot/copilot-instructions.md` for setup instructions.
+
+**CLI output**: `✔ VS Code Copilot adapter applied → .vscode/settings.json`
 
 ### Kiro
 
 See `adapters/kiro/project.md` for configuration.
 
+**CLI output**: `✔ Kiro adapter applied → .kiro/steering/project.md`
+
 ### Gemini/Antigravity
 
 See `adapters/antigravity-gemini/GEMINI.md` for `@include` usage.
 
-## Local validation
+**CLI output**: `✔ Gemini adapter applied → GEMINI.md`
+
+## Local Validation
 
 ### Test install script
 
@@ -217,19 +381,27 @@ test -x install/install-to-home.sh && echo "✓ install script is executable"
 test -x install/update.sh && echo "✓ update script is executable"
 ```
 
-## How a consuming repo uses this
+## How a Consuming Repo Uses This
 
 ### Using the CLI (Recommended)
 
 ```bash
 # In your repo root
 npx @aialchemy/ai-coding-rules init
+
+# Or with explicit mode
+npx @aialchemy/ai-coding-rules init --mode=compose
+npx @aialchemy/ai-coding-rules init --mode=replace
+npx @aialchemy/ai-coding-rules init --mode=check
+
+# Plan what would change
+npx @aialchemy/ai-coding-rules plan
 ```
 
 This automatically:
-- Downloads the latest rules and adapters from GitHub (no bundled files)
-- Silently overwrites `~/.ai-coding-rules/` and `AGENTS.md`
-- Creates `AGENTS.md` with your selected profile
+- Downloads the latest rules and adapters from GitHub
+- Creates a composed file structure that preserves your context
+- Creates `AGENTS.md`, `AGENTS.rules.md`, and `AGENTS.local.md`
 - Configures your selected IDE tools
 
 ### Manual setup
@@ -265,8 +437,16 @@ This automatically:
 4. **Agents will**:
    - Read `AGENTS.md` first
    - Load profile packs from `~/.ai-coding-rules/packs/` or repo's `.ai-coding-rules/`
-   - Apply repo-specific overrides
+   - Apply repo-specific overrides from `AGENTS.local.md`
    - Follow conflict resolution policy
+
+## Non-Functional Requirements
+
+- **Deterministic**: All file writes are deterministic
+- **Idempotent**: CLI can be run multiple times safely
+- **No silent destruction**: Clear logs for every action
+- **Safe defaults**: Safety over power
+- **Transparent**: Every action is logged and explained
 
 ## Support
 
@@ -286,3 +466,10 @@ This repository provides public-safe, tool-agnostic rule packs. Contributions sh
 - Avoid tool lock-in
 - Include conflict resolution notes when introducing new packs
 - Keep each `RULES.md` under ~200-300 lines
+- Include `metadata.json` for new packs with appropriate maturity level
+
+## Guiding Principle
+
+> AI Agentic Rules should feel like guardrails, not handcuffs.
+
+Speed with safety. Governance with respect.

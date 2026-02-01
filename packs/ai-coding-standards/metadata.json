@@ -1,0 +1,6 @@
+{
+    "name": "ai-coding-standards",
+    "type": "core",
+    "mutable": false,
+    "description": "Production-grade coding standards for AI-assisted development"
+}

@@ -10,9 +10,11 @@ When multiple rule sources apply, resolve conflicts in this order:
 
 1. **Enforcement wins**: CI checks, linters, typecheck, tests, build pipelines, and security scanners **override** written guidance.
 2. **Specific beats general**:
-   - Folder/domain rules override repo-root rules.
-   - Repo-root rules override org/user-global packs.
-3. **Repo overrides user-global**: a consuming repo’s `AGENTS.md` and `.ai-coding-rules/` override `~/.ai-coding-rules/`.
+  - Folder/domain rules override repo-root rules.
+3. **Explicit precedence**: `org > repo > folder > local`.
+  - Org/global packs take precedence over repo packs.
+  - Repo packs take precedence over folder rules.
+  - Folder rules take precedence over local context.
 4. **Profile decides toolchain**:
    - If the selected profile is **bun-stack**, prefer Bun tooling and Bun-native APIs (see `packs/bun-first`).
    - If the selected profile is **node-stack**, prefer Node/pnpm/Vite/Jest/Express (or the repo’s existing equivalents).

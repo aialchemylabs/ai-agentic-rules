@@ -1,0 +1,6 @@
+{
+    "name": "ios",
+    "type": "opinionated",
+    "mutable": false,
+    "description": "iOS/Swift development standards and conventions"
+}

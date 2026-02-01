@@ -1,0 +1,6 @@
+{
+    "name": "typescript",
+    "type": "core",
+    "mutable": false,
+    "description": "TypeScript strictness, type safety, and boundary rules"
+}

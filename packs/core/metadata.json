@@ -1,0 +1,6 @@
+{
+    "name": "core",
+    "type": "core",
+    "mutable": false,
+    "description": "Universal, tool-agnostic agent behavior and conflict resolution rules"
+}

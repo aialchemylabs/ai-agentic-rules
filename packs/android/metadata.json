@@ -1,0 +1,6 @@
+{
+    "name": "android",
+    "type": "opinionated",
+    "mutable": false,
+    "description": "Android/Kotlin development standards and conventions"
+}

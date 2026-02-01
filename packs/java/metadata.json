@@ -1,0 +1,6 @@
+{
+    "name": "java",
+    "type": "opinionated",
+    "mutable": false,
+    "description": "Java development standards and conventions"
+}

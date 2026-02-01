@@ -1,0 +1,6 @@
+{
+    "name": "bun-first",
+    "type": "opinionated",
+    "mutable": false,
+    "description": "Bun-first toolchain defaults for TypeScript/JavaScript projects"
+}
