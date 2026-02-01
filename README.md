@@ -19,10 +19,14 @@ A modular system for defining how AI coding agents (and humans) should work in y
 
 ## Quick Start (Minimum Useful Setup)
 
-Get started with a single command:
+Get started with a single command (npm v11+ requires an explicit binary):
 
 ```bash
-npx @aialchemy/ai-coding-rules init
+# Option A (npx with explicit binary)
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init
+
+# Option B (npm exec)
+npm exec --yes --package=@aialchemy/ai-coding-rules -- ai-coding-rules init
 ```
 
 That's it! This will:
@@ -171,7 +175,11 @@ Edit this file to add:
 ### Option 1: Interactive CLI (Recommended)
 
 ```bash
-npx @aialchemy/ai-coding-rules init
+# Option A (npx with explicit binary)
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init
+
+# Option B (npm exec)
+npm exec --yes --package=@aialchemy/ai-coding-rules -- ai-coding-rules init
 ```
 
 If you install the CLI globally, you can run `ai-coding-rules init` directly.
@@ -182,7 +190,7 @@ If you install the CLI globally, you can run `ai-coding-rules init` directly.
 curl -fsSL https://raw.githubusercontent.com/aialchemylabs/ai-agentic-rules/main/install/install-from-remote.sh | bash
 ```
 
-Then run `npx @aialchemy/ai-coding-rules init` in your repo to configure it.
+Then run one of the commands above in your repo to configure it.
 
 ### Option 3: Manual installation
 
@@ -386,16 +394,17 @@ test -x install/update.sh && echo "✓ update script is executable"
 ### Using the CLI (Recommended)
 
 ```bash
-# In your repo root
-npx @aialchemy/ai-coding-rules init
+# In your repo root (choose one)
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init
+npm exec --yes --package=@aialchemy/ai-coding-rules -- ai-coding-rules init
 
 # Or with explicit mode
-npx @aialchemy/ai-coding-rules init --mode=compose
-npx @aialchemy/ai-coding-rules init --mode=replace
-npx @aialchemy/ai-coding-rules init --mode=check
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init --mode=compose
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init --mode=replace
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules init --mode=check
 
 # Plan what would change
-npx @aialchemy/ai-coding-rules plan
+npx --yes --package=@aialchemy/ai-coding-rules ai-coding-rules plan
 ```
 
 This automatically:
